@@ -8,7 +8,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { Slider, SliderSuggestion, Modulation } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
 const model = 'gemini-2.5-pro';
 
 // A centralized, detailed system instruction for all code-generation prompts.
@@ -542,7 +542,7 @@ Translate the user's natural language request into one or more "Modulation" patc
 - 'masterVolume': Overall volume (0.0 to 1.0).
 - 'drone.gain', 'drone.filter' (Hz), 'drone.pitch' (semitones).
 - 'atmosphere.gain'.
-- 'arp.gain', 'arp.filter' (Hz), 'arp.speed' (multiplier, higher = faster notes), 'arp.octaves' (range 1-3).
+- 'arp.gain', 'arp.speed' (multiplier, higher = faster notes), 'arp.octaves' (range 1-3).
 - 'rhythm.gain', 'rhythm.filter' (Hz), 'rhythm.bpm' (Beats Per Minute).
 - 'melody.gain', 'melody.density' (0.0 to 1.0, higher = more frequent notes).
 - 'reverb.mix', 'reverb.tone' (Hz).

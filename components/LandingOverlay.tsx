@@ -406,7 +406,7 @@ const ChatWidget: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
     useEffect(() => {
         // Initialize Chat Session
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
         chatSessionRef.current = ai.chats.create({
             model: 'gemini-2.5-flash',
             config: {
