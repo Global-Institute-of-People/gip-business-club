@@ -1,4 +1,3 @@
-
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -405,8 +404,8 @@ const ChatWidget: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Initialize Chat Session
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+        // Initialize Chat Session with fallback for API key
+        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY ?? "" });
         chatSessionRef.current = ai.chats.create({
             model: 'gemini-2.5-flash',
             config: {

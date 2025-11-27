@@ -8,7 +8,7 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { Slider, SliderSuggestion, Modulation } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY ?? "" });
 const model = 'gemini-2.5-pro';
 
 // A centralized, detailed system instruction for all code-generation prompts.
