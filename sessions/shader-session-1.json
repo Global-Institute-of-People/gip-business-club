@@ -1,0 +1,101 @@
+{
+  "sessionId": "1",
+  "shaderCode": "vec2 uv=(FC.xy*2.-r.xy)/r.y;uv*=slider_zoom;uv.x+=slider_panX;uv.y+=slider_panY;vec3 col=vec3(.02,.05,.1);vec2 p=uv;float river=.1*sin(p.x*4.5)+.05*sin(p.x*10.2)+.02*sin(p.x*25.);float north=p.y-(.35+river);float south=-.45-p.y;float west=-1.7-(p.x+p.y*.4);float east=p.x-(1.5-p.y*.6);float d=max(max(north,south),max(west,east));float border=smoothstep(.02,.0,abs(d));float glow=exp(-8.*max(0.,d));float inside=1.-smoothstep(0.,.01,d);if(inside>0.){float gridScale=slider_networkDensity;vec2 gv=fract(p*gridScale)-.5;vec2 id=floor(p*gridScale);float distToNode=length(gv);float node=smoothstep(.15,.05,distToNode);float pulse=sin(t*slider_pulseSpeed+id.x*.5+id.y*.8);pulse=smoothstep(.8,1.,pulse);float lines=(smoothstep(.45,.5,1.-abs(gv.x))+smoothstep(.45,.5,1.-abs(gv.y)))*.2;vec3 mapCol=vec3(0.,.15,.3);vec3 nodeCol=vec3(0.,.8,1.);vec3 pulseCol=vec3(1.,.9,.2);col=mix(col,mapCol,.8)+lines*vec3(0.,.6,1.)+node*nodeCol+node*pulse*pulseCol*2.;}col+=vec3(0.,.7,1.)*border*1.5;col+=vec3(0.,.3,.8)*glow*.6;col*=1.-length(uv*.4);o=vec4(col,1.);",
+  "sliders": [
+    {
+      "name": "Map Zoom",
+      "description": "Zoom level of the map.",
+      "variableName": "slider_zoom",
+      "min": 0.5,
+      "max": 3.0,
+      "step": 0.1,
+      "defaultValue": 1.2
+    },
+    {
+      "name": "Pan X",
+      "description": "Horizontal position.",
+      "variableName": "slider_panX",
+      "min": -2.0,
+      "max": 2.0,
+      "step": 0.1,
+      "defaultValue": 0.0
+    },
+    {
+      "name": "Pan Y",
+      "description": "Vertical position.",
+      "variableName": "slider_panY",
+      "min": -1.0,
+      "max": 1.0,
+      "step": 0.1,
+      "defaultValue": 0.0
+    },
+    {
+      "name": "Network Density",
+      "description": "Density of the business nodes.",
+      "variableName": "slider_networkDensity",
+      "min": 5.0,
+      "max": 25.0,
+      "step": 1.0,
+      "defaultValue": 12.0
+    },
+    {
+      "name": "Data Pulse Speed",
+      "description": "Speed of network activity.",
+      "variableName": "slider_pulseSpeed",
+      "min": 0.0,
+      "max": 10.0,
+      "step": 0.1,
+      "defaultValue": 3.0
+    }
+  ],
+  "uniforms": {
+    "slider_zoom": 1.2,
+    "slider_panX": 0.0,
+    "slider_panY": 0.0,
+    "slider_networkDensity": 12.0,
+    "slider_pulseSpeed": 3.0
+  },
+  "cameraControlsEnabled": false,
+  "soundConfig": {
+    "enabled": true,
+    "masterVolume": 0.5,
+    "reverb": {
+      "enabled": true,
+      "mix": 0.3,
+      "decay": 3,
+      "tone": 3000
+    },
+    "drone": {
+      "enabled": true,
+      "gain": 0.2,
+      "filter": 80,
+      "pitch": -24
+    },
+    "atmosphere": {
+      "enabled": true,
+      "gain": 0.05,
+      "texture": "smooth"
+    },
+    "melody": {
+      "enabled": false,
+      "gain": 0,
+      "density": 0,
+      "scale": "dorian"
+    },
+    "arp": {
+      "enabled": true,
+      "gain": 0.15,
+      "speed": 1,
+      "octaves": 2,
+      "filter": 800,
+      "direction": "random"
+    },
+    "rhythm": {
+      "enabled": true,
+      "gain": 0.3,
+      "bpm": 90,
+      "filter": 200
+    },
+    "modulations": []
+  }
+}
