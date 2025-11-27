@@ -405,8 +405,8 @@ const ChatWidget: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
     useEffect(() => {
         // Initialize Chat Session with fallback for API key
-        // Explicitly cast process.env.API_KEY to string to satisfy strict TypeScript check
-        const apiKey = (process.env.API_KEY as string) || "";
+        // Explicitly cast process.env.API_KEY to string using nullish coalescing to satisfy strict TypeScript check
+        const apiKey = (process.env.API_KEY as string | undefined) ?? "";
         const ai = new GoogleGenAI({ apiKey });
         
         chatSessionRef.current = ai.chats.create({

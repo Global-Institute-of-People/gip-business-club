@@ -8,8 +8,8 @@ import { GoogleGenAI, Type } from "@google/genai";
 import type { Slider, SliderSuggestion, Modulation } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-// Explicitly cast process.env.API_KEY to string to satisfy strict TypeScript check
-const apiKey = (process.env.API_KEY as string) || "";
+// Explicitly cast process.env.API_KEY to string using nullish coalescing to satisfy strict TypeScript check
+const apiKey = (process.env.API_KEY as string | undefined) ?? "";
 const ai = new GoogleGenAI({ apiKey });
 
 const model = 'gemini-2.5-pro';
