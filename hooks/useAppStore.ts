@@ -927,7 +927,8 @@ export const useAppStore = (): Omit<AppContextType, keyof ReturnType<typeof useD
     // Check explicitly against the ref to avoid stale closure issues
     if (currentSessionIdRef.current === '1' && !audioContextRef.current && soundConfigRef.current.enabled) {
         initAudio();
-        audioContextRef.current?.resume();
+        // Force resume in case it was suspended, explicitly cast for TS
+        (audioContextRef.current as AudioContext)?.resume();
     }
     const lowerKey = key.toLowerCase();
     keysPressed.current.add(lowerKey);
@@ -1047,7 +1048,8 @@ export const useAppStore = (): Omit<AppContextType, keyof ReturnType<typeof useD
           sliders,
           uniforms,
           cameraControlsEnabled,
-          terraformConfig,
+          // Handle potential null from state vs undefined in interface
+          terraformConfig: terraformConfig ?? undefined,
           controlConfig,
           soundConfig,
           source: sessionSource ?? undefined,

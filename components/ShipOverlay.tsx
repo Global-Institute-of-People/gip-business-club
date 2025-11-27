@@ -301,8 +301,8 @@ export const ShipOverlay: React.FC = () => {
         gl.linkProgram(p);
         gl.useProgram(p);
 
-        // Uniform locations
-        const locs = {
+        // Uniform locations with explicit type
+        const locs: Record<string, WebGLUniformLocation | null> = {
             uRes: gl.getUniformLocation(p, 'u_resolution'),
             uTime: gl.getUniformLocation(p, 'u_time'),
             uShipRot: gl.getUniformLocation(p, 'u_shipRot'),

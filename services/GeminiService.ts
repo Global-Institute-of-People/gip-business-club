@@ -104,7 +104,7 @@ Example Output:
         }
     });
 
-    return JSON.parse(response.text) as Slider[];
+    return JSON.parse(response.text || "[]") as Slider[];
 };
 
 export const enrichSliderDetails = async (shaderCode: string, sliders: Slider[]): Promise<Slider[]> => {
@@ -146,7 +146,7 @@ Your response MUST be ONLY a JSON array of objects, with one object for each sli
         }
     });
 
-    const enrichedData = JSON.parse(response.text) as { variableName: string; newName: string; newDescription: string; }[];
+    const enrichedData = JSON.parse(response.text || "[]") as { variableName: string; newName: string; newDescription: string; }[];
     
     return sliders.map(slider => {
         const update = enrichedData.find(e => e.variableName === slider.variableName);
@@ -206,7 +206,7 @@ Example Output:
         }
     });
 
-    return JSON.parse(response.text) as SliderSuggestion[];
+    return JSON.parse(response.text || "[]") as SliderSuggestion[];
 };
 
 export const explainCode = async (snippet: string): Promise<string> => {
@@ -218,7 +218,7 @@ ${snippet}
 \`\`\`
 `;
     const response = await ai.models.generateContent({ model, contents: prompt });
-    return response.text;
+    return response.text || "";
 };
 
 export type ModificationType = 'adjust_sliders' | 'smart_slider' | 'modify_code' | 'enable_camera_controls';
@@ -280,7 +280,7 @@ CRITICAL RULE: For any request that introduces a new visual element or behavior 
             }
         }
     });
-    return JSON.parse(response.text) as ModificationDecision;
+    return JSON.parse(response.text || "{}") as ModificationDecision;
 };
 
 export const adjustSliders = async (shaderCode: string, sliders: Slider[], userPrompt: string): Promise<{ [key: string]: number }> => {
@@ -328,7 +328,7 @@ Example response:
         }
     });
     
-    const adjustments = JSON.parse(response.text) as { variableName: string; newValue: number }[];
+    const adjustments = JSON.parse(response.text || "[]") as { variableName: string; newValue: number }[];
     
     const updatedUniforms: { [key: string]: number } = {};
     for (const adj of adjustments) {
@@ -406,7 +406,7 @@ You must:
         }
     });
     
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "{}");
 };
 
 export const implementCameraControls = async (shaderCode: string): Promise<{ modifiedCode: string }> => {
@@ -452,7 +452,7 @@ Your response must be a JSON object with a single key, "modifiedCode", containin
             }
         }
     });
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "{}");
 };
 
 export const modifyCode = async (shaderCode: string, userPrompt: string): Promise<{ modifiedCode: string }> => {
@@ -484,7 +484,7 @@ Your response must be a JSON object with a single key, "modifiedCode", containin
             }
         }
     });
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "{}");
 };
 
 export const fixCode = async (shaderCode: string, errorMessage: string): Promise<{ fixedCode: string }> => {
@@ -520,7 +520,7 @@ Your response must be a JSON object with a single key, "fixedCode", containing t
             }
         }
     });
-    return JSON.parse(response.text);
+    return JSON.parse(response.text || "{}");
 };
 
 export const generateAudioModulation = async (userPrompt: string): Promise<Modulation[]> => {
@@ -588,6 +588,6 @@ Return a JSON array of Modulation objects. Each object must have:
         }
     });
 
-    const rawMods = JSON.parse(response.text) as Omit<Modulation, 'id'>[];
+    const rawMods = JSON.parse(response.text || "[]") as Omit<Modulation, 'id'>[];
     return rawMods.map(mod => ({ ...mod, id: uuidv4() }));
 };
